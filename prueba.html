@@ -1,0 +1,168 @@
+<style>
+  body {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+  }
+  </style>
+  
+  
+  <script>
+  // You can use the console window at the bottom
+  
+  class Persona{
+      constructor(codigo,nombre){
+          this.nombre=nombre;
+          this.codigo=codigo;
+          this.siguiente=null;
+      }
+      info(){
+        return this.codigo + ":-> " + this.nombre;
+      }
+  }
+  
+  
+  
+  class Grupo{
+      constructor(){
+          this.inicio=null;
+      }
+      /*agregar(nuevo){
+          if (this.inicio==null){
+              this.inicio=nuevo;
+          } else {
+              let temp=this.inicio;
+              while (temp.siguiente!=null){
+                  temp=temp.siguiente;
+              }
+              temp.siguiente=nuevo;
+          }
+      }*/     
+      agregar(nuevo){    
+        if (this.inicio==null)
+          this.inicio=nuevo;
+        else              
+          this._agregar(nuevo,this.inicio);
+      }
+   
+      _agregar(nuevo,ultimo){
+        if (ultimo.siguiente==null)
+            ultimo.siguiente=nuevo; //....
+        else            
+          this._agregar(nuevo,ultimo.siguiente);
+      }
+   
+      listar(){
+        let datos='';
+        let temp=this.inicio;
+        while (temp!=null){
+          datos += temp.info() + "\n"
+          temp=temp.siguiente;
+        }
+        return datos;
+      }
+   
+      listarInverso(){
+        let datos='';
+        let temp=this.inicio;
+        while (temp!=null){
+          datos = temp.info() + "\n" + datos
+          temp=temp.siguiente;
+        }
+        return datos;
+      }
+   
+   
+   
+      listar2(){
+        if (!this.inicio)
+          return "";
+        else
+          return this._listarRec(this.inicio);;
+      }
+        _listarRec(nodo){
+        if (nodo.siguiente==null)
+          return nodo.info();
+        else
+          return nodo.info() + this._listarRec(nodo.siguiente);
+      }          
+   
+   
+   
+   
+      buscar(codigo){
+        if (!this.inicio)
+          return null;
+        let aux=this.inicio;
+        while(aux!=null){
+          if (aux.codigo==codigo)
+            return aux;
+          aux=aux.siguiente;
+        }
+        return null;
+      }
+   
+   
+           eliminar(codigo){
+              //this.inicio.siguiente=
+        //this.inicio.siguiente.siguiente;
+  
+        let eliminado=null;
+        if (!this.inicio)
+          return null;
+        if (this.inicio.codigo==codigo){
+          eliminado=this.inicio;
+          this.inicio=this.inicio.siguiente;
+          return eliminado;
+        } else {
+          let an=this.inicio;
+          let ac=this.inicio.siguiente;
+          while(ac!=null){
+            if (ac.codigo==codigo){
+              an.siguiente=an.siguiente.siguiente;
+              eliminado=ac;
+              eliminado.siguiente=null;
+              return eliminado;
+            } else {
+              an=ac;
+              ac=ac.siguiente;
+            }
+          }
+          return null;
+        }
+      }
+  }
+   
+    let g3g=new Grupo();
+    let p1=new Persona(1,'A');
+    g3g.agregar(p1);
+    p1=new Persona(2,'B');
+    g3g.agregar(p1);
+    p1=new Persona(3,'C');
+    g3g.agregar(p1);
+    p1=new Persona(4,'D');
+    g3g.agregar(p1);
+    p1=new Persona(5,'E');
+    g3g.agregar(p1);
+    p1=new Persona(6,'F');
+    g3g.agregar(p1);
+    console.log(g3g.listar());
+   
+    let b=g3g.buscar(9);
+    if (b==null)
+      console.log('No existe el codigo 9');
+    else
+      console.log(b.info());
+   
+    b=g3g.buscar(3);
+    if (b==null)
+      console.log('No existe el codigo 3');
+    else
+      console.log(b.info());
+  
+    let e=g3g.eliminar(9);
+    if (e==null)
+      console.log('No existe 3');
+    else
+      console.log('Se elimino ' + e.info());
+    console.log(g3g.listar2());//recursiva
+    console.log(g3g.listarInverso());
+  </script>
